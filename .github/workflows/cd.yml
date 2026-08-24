@@ -1,25 +1,34 @@
+name: lastone-pipeline - CD
+'on':
+  push:
+    branches:
+      - main
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
       - name: Package Kubernetes Manifests
         run: echo "MANIFEST_B64=$(tar -czf - k8s | base64 -w0)" >> "$GITHUB_ENV"
       - name: Deploy to VM via AWS SSM
         run: |-
           INSTANCE_ID="i-08a9a54d114d9796e"
-
-          COMMANDS_JSON=$(jq -n --arg manifest "$MANIFEST_B64" '
-            ["set -e",
-             "mkdir -p /tmp/k8s-deploy",
-             ("echo " + ($manifest|@sh) + " | base64 -d | tar -xzf - -C /tmp/k8s-deploy"),
-             "export KUBECONFIG=/root/.kube/config",
-             "kubectl config use-context kind-kind",
-             "kubectl apply -f /tmp/k8s-deploy/k8s"]
-          ')
-
+          COMMANDS_JSON=$(jq -n --arg manifest "$MANIFEST_B64" '["set -e","mkdir -p /tmp/k8s-deploy",("echo " + ($manifest|@sh) + " | base64 -d | tar -xzf - -C /tmp/k8s-deploy"),"export KUBECONFIG=/root/.kube/config","kubectl config use-context kind-kind","kubectl apply -f /tmp/k8s-deploy/k8s"]')
           COMMAND_ID=$(aws ssm send-command \
             --instance-ids "$INSTANCE_ID" \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy ${{ github.repository }}@${{ github.sha }}" \
             --parameters commands="$COMMANDS_JSON" \
             --query "Command.CommandId" --output text)
-
           echo "SSM command id: $COMMAND_ID"
           sleep 5
           STATUS="InProgress"
