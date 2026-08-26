@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: lastone-quota
-  namespace: lastone
+  name: hafoza-quota
+  namespace: hafoza
   labels:
-    app: lastone
+    app: hafoza
 spec:
   hard:
     requests.cpu: 1

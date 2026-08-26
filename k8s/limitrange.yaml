@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: LimitRange
 metadata:
-  name: lastone-limits
-  namespace: lastone
+  name: hafoza-limits
+  namespace: hafoza
   labels:
-    app: lastone
+    app: hafoza
 spec:
   limits:
     - type: Container

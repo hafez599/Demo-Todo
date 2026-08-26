@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: lastone
-  namespace: lastone
+  name: hafoza
+  namespace: hafoza
   labels:
-    app: lastone
+    app: hafoza
 spec:
   type: ClusterIP
   selector:
-    app: lastone
+    app: hafoza
   ports:
     - port: 8080
       targetPort: 8080

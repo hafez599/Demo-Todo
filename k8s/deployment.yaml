@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: lastone
-  namespace: lastone
+  name: hafoza
+  namespace: hafoza
   labels:
-    app: lastone
+    app: hafoza
     app.kubernetes.io/managed-by: devops-platform
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lastone
+      app: hafoza
   template:
     metadata:
       labels:
-        app: lastone
+        app: hafoza
     spec:
       containers:
-        - name: lastone
-          image: nginx:latest
+        - name: hafoza
+          image: 997206200726.dkr.ecr.us-east-1.amazonaws.com/b0e15-2a1e-4190-adb4-5e86f5387b1b:latest
           ports:
             - containerPort: 8080
           resources:
@@ -28,4 +28,3 @@ spec:
             limits:
               cpu: 250m
               memory: 256Mi
-
