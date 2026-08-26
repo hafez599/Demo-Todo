@@ -20,7 +20,7 @@ spec:
         - name: hafoza
           image: 997206200726.dkr.ecr.us-east-1.amazonaws.com/b0e15-2a1e-4190-adb4-5e86f5387b1b:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 3000
           resources:
             requests:
               cpu: 500m
