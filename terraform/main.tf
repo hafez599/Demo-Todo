@@ -27,7 +27,7 @@ module "vm" {
   subnet_id = module.network.public_subnet_ids[0]
 
   # --- VM config: sourced from the VmDeployment DB config
-  name              = "hafoza"
+  name              = "hafeoz"
   region            = "us-east-1"
   instance_type     = "t3.micro"
   kind_cluster_name = "kind"
