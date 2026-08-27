@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: hafoza
-  labels:
-    app.kubernetes.io/managed-by: devops-platform
-    app.kubernetes.io/part-of: hafoza
